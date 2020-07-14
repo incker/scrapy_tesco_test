@@ -13,17 +13,15 @@ import logging
 
 class QuotesSpider(scrapy.Spider):
     name = "tesco"
+    allowed_domains = ['tesco.com']
     custom_settings = {'REDIRECT_MAX_TIMES': 0}
 
     def __init__(self, url=None, *args, **kwargs):
         super(QuotesSpider, self).__init__(*args, **kwargs)
-
-        correct_url_start = 'https://www.tesco.com/'
-        if url and url.startswith(correct_url_start):
+        if url:
             self.start_urls = [url]
         else:
-            logging.error(
-                'Provide a correct url to command line to crawl, like: `-a url="{}..."` '.format(correct_url_start))
+            logging.error('Provide a correct url to command line to crawl, like: `-a url="..."` ')
             self.start_urls = []
 
     def parse(self, response):
